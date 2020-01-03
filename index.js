@@ -29,7 +29,10 @@ $(function() {
       console.log(getExcelList)
 
       let newExcelList = [];
-      let roleWeight = {};
+      let roleWeightOne = {};
+      let roleWeightTwo = {};
+      let roleWeightThree = {};
+      let roleWeightFour = {};
       let roalOne = [];
       let roalTwo = [];
       let roalThree = [];
@@ -37,39 +40,42 @@ $(function() {
 
       // 找出可以合并的数据
       for (let i = 0; i < getExcelList[0].length; i++) {
-        roleWeight[getExcelList[0][i]['指标名称']] = getExcelList[0][i]['指标权重'];
         if (i < 4) {
+          roleWeightOne[getExcelList[0][i]['指标名称']] = getExcelList[0][i]['指标权重'];
           roalOne.push(getExcelList[0][i]['指标名称']);
         } else if (i >= 4 && i < 12) {
+          roleWeightTwo[getExcelList[0][i]['指标名称']] = getExcelList[0][i]['指标权重'];
           roalTwo.push(getExcelList[0][i]['指标名称']);
         } else if (i >= 12 && i < 24) {
+          roleWeightThree[getExcelList[0][i]['指标名称']] = getExcelList[0][i]['指标权重'];
           roalThree.push(getExcelList[0][i]['指标名称']);
         } else if (i >=24 && i < 28) {
+          roleWeightFour[getExcelList[0][i]['指标名称']] = getExcelList[0][i]['指标权重'];
           roalFour.push(getExcelList[0][i]['指标名称']);
         }
       }
 
       for (let i = 0; i < getExcelList[1].length; i++) {
         for (let j = 0; j < roalOne.length; j++) {
-          newExcelList[newExcelList.length] = getChildColumn(getExcelList[1][i], roleWeight, roalOne[j]);
+          newExcelList[newExcelList.length] = getChildColumn(getExcelList[1][i], roleWeightOne, roalOne[j]);
         }
       }
 
       for (let i = 0; i < getExcelList[2].length; i++) {
         for (let j = 0; j < roalTwo.length; j++) {
-          newExcelList[newExcelList.length] = getChildColumn(getExcelList[2][i], roleWeight, roalTwo[j]);
+          newExcelList[newExcelList.length] = getChildColumn(getExcelList[2][i], roleWeightTwo, roalTwo[j]);
         }
       }
 
       for (let i = 0; i < getExcelList[3].length; i++) {
         for (let j = 0; j < roalThree.length; j++) {
-          newExcelList[newExcelList.length] = getChildColumn(getExcelList[3][i], roleWeight, roalThree[j]);
+          newExcelList[newExcelList.length] = getChildColumn(getExcelList[3][i], roleWeightThree, roalThree[j]);
         }
       }
 
       for (let i = 0; i < getExcelList[4].length; i++) {
         for (let j = 0; j < roalFour.length; j++) {
-          newExcelList[newExcelList.length] = getChildColumn(getExcelList[4][i], roleWeight, roalFour[j]);
+          newExcelList[newExcelList.length] = getChildColumn(getExcelList[4][i], roleWeightFour, roalFour[j]);
         }
       }
 
