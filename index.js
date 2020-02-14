@@ -40,16 +40,16 @@ $(function() {
 
       // 找出可以合并的数据
       for (let i = 0; i < getExcelList[0].length; i++) {
-        if (i < 4) {
+        if (getExcelList[0][i]['适用角色'] == '员工') {
           roleWeightOne[getExcelList[0][i]['指标名称']] = getExcelList[0][i]['指标权重'];
           roalOne.push(getExcelList[0][i]['指标名称']);
-        } else if (i >= 4 && i < 12) {
+        } else if (getExcelList[0][i]['适用角色'] == '内控联系人') {
           roleWeightTwo[getExcelList[0][i]['指标名称']] = getExcelList[0][i]['指标权重'];
           roalTwo.push(getExcelList[0][i]['指标名称']);
-        } else if (i >= 12 && i < 24) {
+        } else if (getExcelList[0][i]['适用角色'] == '专职合规岗') {
           roleWeightThree[getExcelList[0][i]['指标名称']] = getExcelList[0][i]['指标权重'];
           roalThree.push(getExcelList[0][i]['指标名称']);
-        } else if (i >=24 && i < 28) {
+        } else if (getExcelList[0][i]['适用角色'] == '部门负责人') {
           roleWeightFour[getExcelList[0][i]['指标名称']] = getExcelList[0][i]['指标权重'];
           roalFour.push(getExcelList[0][i]['指标名称']);
         }
