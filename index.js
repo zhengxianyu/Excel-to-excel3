@@ -1,5 +1,5 @@
 $(function() {
-  $('#excelFile').change(function(parentEvent) {
+  $('#complianceIndicators').change(function(parentEvent) {
     let files = parentEvent.target.files;
 
     let fileReader = new FileReader();
@@ -25,8 +25,8 @@ $(function() {
           getExcelList[getExcelList.length] = excelSheet;
         }
       }
-      console.log("==getExcelList::")
-      console.log(getExcelList)
+      // console.log("==getExcelList::")
+      // console.log(getExcelList)
 
       let newExcelList = [];
       let roleWeightOne = {};
@@ -79,12 +79,247 @@ $(function() {
         }
       }
 
-      download(getExcelList, newExcelList, files);
+      downloadFiveSheet(getExcelList, newExcelList, files);
     };
 
     // 以二进制方式打开文件
     fileReader.readAsBinaryString(files[0]);
   });
+
+  $('#contractData').change(function(parentEvent) {
+    let files = parentEvent.target.files;
+
+    let fileReader = new FileReader();
+
+    let getExcelList = [];
+    fileReader.onload = function(childEvent) {
+      let excelBinaryData;
+      // 读取上传的excel文件
+      try {
+        let excelData = childEvent.target.result;
+        excelBinaryData = XLSX.read(excelData, {
+          type: 'binary'
+        });
+      } catch (parentEvent) {
+        console.log('该文件类型不能识别');
+        return;
+      }
+
+      // 获取excel所有元素
+      for (let sheet in excelBinaryData.Sheets) {
+        if (excelBinaryData.Sheets.hasOwnProperty(sheet)) {
+          let excelSheet = XLSX.utils.sheet_to_json(excelBinaryData.Sheets[sheet]);
+          getExcelList[getExcelList.length] = excelSheet;
+        }
+      }
+
+      let newExcelList = [];
+      
+      for (let i = 1; i < getExcelList[0].length; i++) {
+        let item = getExcelList[0][i];
+        let noOtherData = true;
+
+        if (('承揽分配' in item) && ('__EMPTY' in item)) {
+          let newItem = getChildItem(item, '承揽分配', '__EMPTY');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_1' in item) && ('__EMPTY_2' in item)) {
+          let newItem = getChildItem(item, '__EMPTY_1', '__EMPTY_2');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_3' in item) && ('__EMPTY_4' in item)) {
+          let newItem = getChildItem(item, '__EMPTY_3', '__EMPTY_4');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_5' in item) && ('__EMPTY_6' in item)) {
+          let newItem = getChildItem(item, '__EMPTY_5', '__EMPTY_6');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_7' in item) && ('__EMPTY_8' in item)) {
+          let newItem = getChildItem(item, '__EMPTY_7', '__EMPTY_8');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (noOtherData) {
+          let newItem = getChildItem(item);
+          newExcelList[newExcelList.length] = newItem;
+        }
+        
+      }
+
+      downloadOneSheet(newExcelList, files)
+    };
+
+    // 以二进制方式打开文件
+    fileReader.readAsBinaryString(files[0]);
+  });
+
+  $('#bearingData').change(function(parentEvent) {
+    let files = parentEvent.target.files;
+
+    let fileReader = new FileReader();
+
+    let getExcelList = [];
+    fileReader.onload = function(childEvent) {
+      let excelBinaryData;
+      // 读取上传的excel文件
+      try {
+        let excelData = childEvent.target.result;
+        excelBinaryData = XLSX.read(excelData, {
+          type: 'binary'
+        });
+      } catch (parentEvent) {
+        console.log('该文件类型不能识别');
+        return;
+      }
+
+      // 获取excel所有元素
+      for (let sheet in excelBinaryData.Sheets) {
+        if (excelBinaryData.Sheets.hasOwnProperty(sheet)) {
+          let excelSheet = XLSX.utils.sheet_to_json(excelBinaryData.Sheets[sheet]);
+          getExcelList[getExcelList.length] = excelSheet;
+        }
+      }
+
+      let newExcelList = [];
+      
+      for (let i = 1; i < getExcelList[0].length; i++) {
+        let item = getExcelList[0][i];
+        let noOtherData = true;
+
+        if (('承做负责' in item) && ('__EMPTY' in item)) {
+          let newItem = getChildRoleItem(item, '承做负责', '承做负责', '__EMPTY');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_1' in item) && ('__EMPTY_2' in item)) {
+          let newItem = getChildRoleItem(item, '承做负责', '__EMPTY_1', '__EMPTY_2');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('承做参与' in item) && ('__EMPTY_3' in item)) {
+          let newItem = getChildRoleItem(item, '承做参与', '承做参与', '__EMPTY_3');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_4' in item) && ('__EMPTY_5' in item)) {
+          let newItem = getChildRoleItem(item, '承做参与', '__EMPTY_4', '__EMPTY_5');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_6' in item) && ('__EMPTY_7' in item)) {
+          let newItem = getChildRoleItem(item, '承做参与', '__EMPTY_6', '__EMPTY_7');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_8' in item) && ('__EMPTY_9' in item)) {
+          let newItem = getChildRoleItem(item, '承做参与', '__EMPTY_8', '__EMPTY_9');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_10' in item) && ('__EMPTY_11' in item)) {
+          let newItem = getChildRoleItem(item, '承做参与', '__EMPTY_10', '__EMPTY_11');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_12' in item) && ('__EMPTY_13' in item)) {
+          let newItem = getChildRoleItem(item, '承做参与', '__EMPTY_12', '__EMPTY_13');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_14' in item) && ('__EMPTY_15' in item)) {
+          let newItem = getChildRoleItem(item, '承做参与', '__EMPTY_14', '__EMPTY_15');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_16' in item) && ('__EMPTY_17' in item)) {
+          let newItem = getChildRoleItem(item, '承做参与', '__EMPTY_16', '__EMPTY_17');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (('__EMPTY_18' in item) && ('__EMPTY_19' in item)) {
+          let newItem = getChildRoleItem(item, '承做参与', '__EMPTY_18', '__EMPTY_19');
+          newExcelList[newExcelList.length] = newItem;
+          noOtherData = false;
+        }
+
+        if (noOtherData) {
+          let newItem = getChildRoleItem(item, '');
+          newExcelList[newExcelList.length] = newItem;
+        }
+        
+      }
+
+      downloadOneSheet(newExcelList, files);
+    };
+
+    // 以二进制方式打开文件
+    fileReader.readAsBinaryString(files[0]);
+  });
+
+  function getChildRoleItem(oldItem, role, keyOne, keyTwo) {
+    let newItem = {};
+    newItem['来源部门'] = oldItem['来源部门'];
+    newItem['部门'] = oldItem['部门'];
+    newItem['IBD项目编号'] = oldItem['IBD项目编号'];
+    newItem['项目名称（简称）'] = oldItem['项目名称（简称）'];
+    newItem['项目类型'] = oldItem['项目类型'];
+    newItem['年份'] = oldItem['年份'];
+    newItem['项目状态'] = oldItem['项目状态'];
+    newItem['承做计分周期选择'] = oldItem['承做计分周期选择'];
+    newItem['项目收入/万元'] = oldItem[' 项目收入/万元 '];
+    newItem['角色'] = role;
+
+    if (keyOne) {
+      newItem['姓名'] = oldItem[keyOne];
+    }
+    if (keyTwo) {
+      newItem['比例'] = oldItem[keyTwo];
+    }
+
+    return newItem;
+  }
+
+  function getChildItem(oldItem, keyOne, keyTwo) {
+    let newItem = {};
+    newItem['来源部门'] = oldItem['来源部门'];
+    newItem['部门'] = oldItem['部门'];
+    newItem['IBD项目编号'] = oldItem['IBD项目编号'];
+    newItem['项目名称（简称）'] = oldItem['项目名称（简称）'];
+    newItem['项目类型'] = oldItem['项目类型'];
+    newItem['年份'] = oldItem['年份'];
+    newItem['项目状态'] = oldItem['项目状态'];
+    newItem['承做计分周期选择'] = oldItem['承做计分周期选择'];
+    newItem['项目收入/万元'] = oldItem[' 项目收入/万元 '];
+
+    if (keyOne) {
+      newItem['承揽人'] = oldItem[keyOne];
+    }
+    if (keyTwo) {
+      newItem['比例'] = oldItem[keyTwo];
+    }
+
+    return newItem;
+  }
 
   function getChildColumn(columnItem, roleWeight, addColumnName) {
     let type = 0;
@@ -105,7 +340,28 @@ $(function() {
     return columnTemp;
   }
 
-  function download(oldData, newExcelList, files) {
+  function downloadOneSheet(newExcelList, files) {
+    const newSheet = {
+      SheetNames: ['Sheet1'],
+      Sheets: {},
+      Props: {}
+    };
+    const sheetDownloadType = { bookType: 'xlsx', bookSST: false, type: 'binary' };
+
+    newSheet.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(newExcelList);
+    saveAs(
+      new Blob(
+        [
+          stringToArrayBuffer(XLSX.write(newSheet, sheetDownloadType))
+        ], {
+          type: "application/octet-stream"
+        }
+      ),
+      files[0].name
+    );
+  }
+
+  function downloadFiveSheet(oldData, newExcelList, files) {
     const newSheet = {
       SheetNames: ['Sheet0', 'Sheet1', 'Sheet2', 'Sheet3', 'Sheet4', 'Sheet5'],
       Sheets: {},

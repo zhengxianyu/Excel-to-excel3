@@ -6,6 +6,6 @@ body {
   overflow: hidden;
 }
 
-.second-file {
+.second-select, .three-select {
   margin-top: 50px;
 }
