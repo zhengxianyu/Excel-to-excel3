@@ -68,8 +68,8 @@ $(function() {
       console.log(getExcelList)
     
       // 累加各个应用品牌的开出未税金额和毛利
-      for (let i = 1; i < getExcelList[0].length; i++) {
-        let item = getExcelList[0][i];
+      for (let i = 1; i < getExcelList[1].length; i++) {
+        let item = getExcelList[1][i];
     
         if (item[' 开出未税金额 '] != undefined) {
           totalSum += item[' 开出未税金额 '];
