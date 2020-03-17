@@ -1,52 +1,4 @@
 $(function() {
-  function downloadOneSheet(newExcelList, files) {
-    const newSheet = {
-      SheetNames: ['Sheet1'],
-      Sheets: {},
-      Props: {}
-    };
-    const sheetDownloadType = { bookType: 'xlsx', bookSST: false, type: 'binary' };
-
-    newSheet.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(newExcelList);
-    saveAs(
-      new Blob(
-        [
-          stringToArrayBuffer(XLSX.write(newSheet, sheetDownloadType))
-        ], {
-          type: "application/octet-stream"
-        }
-      ),
-      files[0].name
-    );
-  }
-
-  function stringToArrayBuffer(data) {
-    if (typeof ArrayBuffer !== 'undefined') {
-      let arrayBuffer = new ArrayBuffer(data.length);
-      let unitArray = new Uint8Array(arrayBuffer);
-      for (let unitI = 0; unitI != data.length; unitI++) {
-        unitArray[unitI] = data.charCodeAt(unitI) & 0xFF;
-      }
-      return arrayBuffer;
-    } else {
-      let arrayBuffer = new Array(data.length);
-      for (let bufferI = 0; bufferI != data.length; bufferI++) {
-        arrayBuffer[bufferI] = data.charCodeAt(bufferI) & 0xFF;
-      }
-      return arrayBuffer;
-    }
-  }
-
-  function saveAs(content, fileName) {
-    let clickDiv = document.createElement("a");
-    clickDiv.download = fileName || "下载";
-    clickDiv.href = URL.createObjectURL(content);
-    clickDiv.click();
-    setTimeout(function () {
-      URL.revokeObjectURL(content);
-    }, 100);
-  }
-
   $('#icomeCost').change(function(parentEvent) {
     console.log("0000000000=======")
     let files = parentEvent.target.files;
@@ -152,4 +104,52 @@ $(function() {
     // 以二进制方式打开文件
     fileReader.readAsBinaryString(files[0]);
   })
+
+  function downloadOneSheet(newExcelList, files) {
+    const newSheet = {
+      SheetNames: ['Sheet1'],
+      Sheets: {},
+      Props: {}
+    };
+    const sheetDownloadType = { bookType: 'xlsx', bookSST: false, type: 'binary' };
+
+    newSheet.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(newExcelList);
+    saveAs(
+      new Blob(
+        [
+          stringToArrayBuffer(XLSX.write(newSheet, sheetDownloadType))
+        ], {
+          type: "application/octet-stream"
+        }
+      ),
+      files[0].name
+    );
+  }
+
+  function stringToArrayBuffer(data) {
+    if (typeof ArrayBuffer !== 'undefined') {
+      let arrayBuffer = new ArrayBuffer(data.length);
+      let unitArray = new Uint8Array(arrayBuffer);
+      for (let unitI = 0; unitI != data.length; unitI++) {
+        unitArray[unitI] = data.charCodeAt(unitI) & 0xFF;
+      }
+      return arrayBuffer;
+    } else {
+      let arrayBuffer = new Array(data.length);
+      for (let bufferI = 0; bufferI != data.length; bufferI++) {
+        arrayBuffer[bufferI] = data.charCodeAt(bufferI) & 0xFF;
+      }
+      return arrayBuffer;
+    }
+  }
+
+  function saveAs(content, fileName) {
+    let clickDiv = document.createElement("a");
+    clickDiv.download = fileName || "下载";
+    clickDiv.href = URL.createObjectURL(content);
+    clickDiv.click();
+    setTimeout(function () {
+      URL.revokeObjectURL(content);
+    }, 100);
+  }
 })
